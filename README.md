@@ -159,7 +159,7 @@ Academic project - All rights reserved
 
 ## 👤 Author
 
-Douglas Ogieltaziba
+Ogieltaziba Douglas
 
 ---
 
