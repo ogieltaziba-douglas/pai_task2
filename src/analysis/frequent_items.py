@@ -6,6 +6,7 @@ Functions to find item associations and frequent itemsets.
 from typing import List, Tuple
 from data_structures.graph import Graph
 from algorithms.search import bfs
+from algorithms.sorting import merge_sort
 
 
 def find_items_bought_with(
@@ -40,8 +41,8 @@ def find_items_bought_with(
         if weight >= min_frequency
     ]
 
-    # Sort by weight (frequency) in descending order
-    sorted_items = sorted(filtered, key=lambda x: x[1], reverse=True)
+    # Sort by weight (frequency) in descending order using custom merge sort
+    sorted_items = merge_sort(filtered, key=lambda x: x[1], reverse=True)
 
     # Apply limit if specified
     if limit is not None:
@@ -82,8 +83,8 @@ def get_top_associations(
             # For indirect connections (depth > 1), we'd need path finding
             # For now, only include direct neighbors with edges
 
-    # Sort by weight descending
-    associations.sort(key=lambda x: x[1], reverse=True)
+    # Sort by weight descending using custom merge sort
+    associations = merge_sort(associations, key=lambda x: x[1], reverse=True)
 
     # Return top N
     return associations[:n]
@@ -112,8 +113,8 @@ def get_frequent_pairs(
         if weight >= min_frequency
     ]
 
-    # Sort by frequency (weight) in descending order
-    sorted_pairs = sorted(filtered, key=lambda x: x[2], reverse=True)
+    # Sort by frequency (weight) in descending order using custom merge sort
+    sorted_pairs = merge_sort(filtered, key=lambda x: x[2], reverse=True)
 
     return sorted_pairs
 
