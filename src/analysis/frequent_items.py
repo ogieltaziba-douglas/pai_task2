@@ -4,8 +4,8 @@ Functions to find item associations and frequent itemsets.
 """
 
 from typing import List, Tuple
-from src.data_structures.graph import Graph
-from src.algorithms.search import bfs
+from data_structures.graph import Graph
+from algorithms.search import bfs
 
 
 def find_items_bought_with(

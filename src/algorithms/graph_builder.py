@@ -1,10 +1,11 @@
 """
-Graph builder algorithm for market basket analysis.
-Processes transaction data into graph structure.
+Graph builder algorithm.
+Constructs a graph from transaction data.
 """
 
 from typing import List
-from src.data_structures.graph import Graph
+from itertools import combinations
+from data_structures.graph import Graph
 
 
 def build_graph_from_transactions(transactions: List[List[str]]) -> Graph:
