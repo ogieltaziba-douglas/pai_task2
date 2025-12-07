@@ -23,8 +23,60 @@ def merge_sort(
     Time Complexity: O(n log n)
     Space Complexity: O(n)
     """
-    # TODO: Implement merge sort
-    pass
+    # Handle empty or single-item lists
+    if len(items) <= 1:
+        return list(items)
+
+    # Create a copy to avoid modifying original
+    arr = list(items)
+
+    # Use identity function if no key provided
+    if key is None:
+        key = lambda x: x
+
+    def _merge(left: List[Any], right: List[Any]) -> List[Any]:
+        """Merge two sorted lists into one sorted list."""
+        result = []
+        i = j = 0
+
+        while i < len(left) and j < len(right):
+            left_key = key(left[i])
+            right_key = key(right[j])
+
+            if reverse:
+                # Descending order
+                if left_key >= right_key:
+                    result.append(left[i])
+                    i += 1
+                else:
+                    result.append(right[j])
+                    j += 1
+            else:
+                # Ascending order
+                if left_key <= right_key:
+                    result.append(left[i])
+                    i += 1
+                else:
+                    result.append(right[j])
+                    j += 1
+
+        # Append remaining elements
+        result.extend(left[i:])
+        result.extend(right[j:])
+        return result
+
+    def _merge_sort(arr: List[Any]) -> List[Any]:
+        """Recursive merge sort implementation."""
+        if len(arr) <= 1:
+            return arr
+
+        mid = len(arr) // 2
+        left = _merge_sort(arr[:mid])
+        right = _merge_sort(arr[mid:])
+
+        return _merge(left, right)
+
+    return _merge_sort(arr)
 
 
 def sort_pairs_by_frequency(
@@ -40,8 +92,7 @@ def sort_pairs_by_frequency(
     Returns:
         Sorted list of pairs
     """
-    # TODO: Implement using merge_sort
-    pass
+    return merge_sort(pairs, key=lambda x: x[2], reverse=reverse)
 
 
 def sort_associations_by_weight(
@@ -57,5 +108,4 @@ def sort_associations_by_weight(
     Returns:
         Sorted list of associations
     """
-    # TODO: Implement using merge_sort
-    pass
+    return merge_sort(associations, key=lambda x: x[1], reverse=reverse)
