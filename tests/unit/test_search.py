@@ -78,7 +78,11 @@ class TestBFS:
         assert len(result) == 3
         assert result["a"] == 0
         assert result["b"] == 1
-        assert result["c"] == 2
+        # In undirected graph, c is reachable from a in 2 ways:
+        # 1. a -> b -> c (depth 2)
+        # 2. a -> c (depth 1, direct edge)
+        # BFS finds shortest path, so c should be at depth 1
+        assert result["c"] == 1
 
     def test_bfs_disconnected_graph(self):
         """Test BFS only finds connected component."""

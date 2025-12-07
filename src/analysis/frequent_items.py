@@ -5,6 +5,7 @@ Functions to find item associations and frequent itemsets.
 
 from typing import List, Tuple
 from src.data_structures.graph import Graph
+from src.algorithms.search import bfs
 
 
 def find_items_bought_with(
@@ -25,7 +26,28 @@ def find_items_bought_with(
     Raises:
         KeyError: If item not found in graph
     """
-    pass
+    # Check if item exists
+    if not graph.has_node(item):
+        raise KeyError(f"Item '{item}' not found in graph")
+
+    # Get all neighbors with their weights
+    neighbors = graph.get_neighbors(item)
+
+    # Filter by minimum frequency
+    filtered = [
+        (neighbor, weight)
+        for neighbor, weight in neighbors.items()
+        if weight >= min_frequency
+    ]
+
+    # Sort by weight (frequency) in descending order
+    sorted_items = sorted(filtered, key=lambda x: x[1], reverse=True)
+
+    # Apply limit if specified
+    if limit is not None:
+        sorted_items = sorted_items[:limit]
+
+    return sorted_items
 
 
 def get_top_associations(
@@ -46,7 +68,25 @@ def get_top_associations(
     Raises:
         KeyError: If item not found in graph
     """
-    pass
+    # Use BFS to find items within max_depth
+    reachable = bfs(graph, item, max_depth=max_depth)
+
+    # Collect associations with weights
+    associations = []
+    for node in reachable:
+        if node != item:  # Exclude the item itself
+            # Get weight from graph
+            weight = graph.get_edge_weight(item, node)
+            if weight > 0:  # Direct neighbor
+                associations.append((node, weight))
+            # For indirect connections (depth > 1), we'd need path finding
+            # For now, only include direct neighbors with edges
+
+    # Sort by weight descending
+    associations.sort(key=lambda x: x[1], reverse=True)
+
+    # Return top N
+    return associations[:n]
 
 
 def get_frequent_pairs(
@@ -62,7 +102,20 @@ def get_frequent_pairs(
     Returns:
         List of (item1, item2, frequency) tuples sorted by frequency descending
     """
-    pass
+    # Get all edges from the graph
+    edges = graph.get_all_edges()
+
+    # Filter by minimum frequency
+    filtered = [
+        (item1, item2, weight)
+        for item1, item2, weight in edges
+        if weight >= min_frequency
+    ]
+
+    # Sort by frequency (weight) in descending order
+    sorted_pairs = sorted(filtered, key=lambda x: x[2], reverse=True)
+
+    return sorted_pairs
 
 
 def get_top_bundles(graph: Graph, n: int = 10) -> List[Tuple[str, str, int]]:
@@ -76,4 +129,8 @@ def get_top_bundles(graph: Graph, n: int = 10) -> List[Tuple[str, str, int]]:
     Returns:
         List of (item1, item2, frequency) tuples for top N bundles
     """
-    pass
+    # Get all pairs sorted by frequency
+    all_pairs = get_frequent_pairs(graph, min_frequency=1)
+
+    # Return top N
+    return all_pairs[:n]
