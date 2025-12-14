@@ -2,12 +2,6 @@
 
 A market basket analysis system using custom data structures and algorithms to analyze customer purchasing patterns from supermarket transaction data. Built with **Test-Driven Development (TDD)**.
 
-## Academic Context
-
-- **Module**: Programming and Algorithms  
-- **Task**: Task 2 - Data Structure and Algorithm Implementation  
-- **Methodology**: Test-Driven Development (TDD)
-
 ## Project Structure
 
 ```
@@ -36,7 +30,7 @@ pai_task2/
 ### Installation
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ogieltaziba-douglas/pai_task2
 cd pai_task2
 pip install -r requirements.txt
 ```
